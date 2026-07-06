@@ -7,4 +7,4 @@ Schematics (revision 1)
 
 Copyright 2026 Zhiyuan (Jerry) Jiang, Aiden Clyde Pinto, Peter Shao, Atharv Mahajan, Jamie Seoh, Abhimanyu Chaudhary
 
-License
+[License](LICENSE)
