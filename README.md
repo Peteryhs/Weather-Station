@@ -5,4 +5,6 @@ Schematics (revision 1)
 ![Alternative Text](screenshots/schematics.png)
 
 
-Copyright 2026 Jerry, Aiden, Peter, Atharv, Jamie Seoh, Abhimanyu Chaudhary
+Copyright 2026 Zhiyuan (Jerry) Jiang, Aiden Clyde Pinto, Peter Shao, Atharv Mahajan, Jamie Seoh, Abhimanyu Chaudhary
+
+License
