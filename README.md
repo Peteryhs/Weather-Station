@@ -1,4 +1,4 @@
-#Portable Weather Station (Indev)
+Portable Weather Station (Indev)
 ---
 Schematics (revision 1)
 
