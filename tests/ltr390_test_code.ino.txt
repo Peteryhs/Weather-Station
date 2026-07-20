@@ -1,0 +1,66 @@
+#include <Wire.h>
+#include <Adafruit_LTR390.h>
+
+// Custom I2C pins
+#define I2C_SDA 26
+#define I2C_SCL 25
+
+Adafruit_LTR390 ltr = Adafruit_LTR390();
+
+void setup() {
+  Serial.begin(115200);
+  while (!Serial) delay(10);
+
+  // Start I2C on custom pins
+  Wire.begin(I2C_SDA, I2C_SCL);
+
+  Serial.println("Initializing LTR390...");
+
+  if (!ltr.begin(&Wire)) {
+    Serial.println("Could not find a valid LTR390 sensor. Check wiring!");
+    while (1) delay(10);
+  }
+
+  Serial.println("LTR390 initialized successfully!");
+
+  // Configure sensor settings
+  ltr.setMode(LTR390_MODE_UVS);       // Start in UV mode
+  ltr.setGain(LTR390_GAIN_3);
+  ltr.setResolution(LTR390_RESOLUTION_16BIT);
+  ltr.setThresholds(100, 1000);
+  ltr.configInterrupt(true, LTR390_MODE_UVS);
+
+  delay(1000);
+}
+
+void loop() {
+  Serial.println("----- LTR390 Readings -----");
+
+  // Read UV
+  ltr.setMode(LTR390_MODE_UVS);
+  delay(150); // allow mode switch + integration time
+  if (ltr.newDataAvailable()) {
+    uint32_t uvRaw = ltr.readUVS();
+    float uvi = uvRaw / 1400.0; // approximate UV Index conversion (datasheet-based scaling)
+    Serial.print("UV Raw: ");
+    Serial.println(uvRaw);
+    Serial.print("UV Index (approx): ");
+    Serial.println(uvi, 2);
+  }
+
+  // Read Ambient Light
+  ltr.setMode(LTR390_MODE_ALS);
+  delay(150);
+  if (ltr.newDataAvailable()) {
+    uint32_t alsRaw = ltr.readALS();
+    // Approximate lux conversion (depends on gain/resolution settings)
+    float lux = alsRaw * (0.6 / (3 * 4)); // simplified formula, see datasheet for precise calc
+    Serial.print("ALS Raw: ");
+    Serial.println(alsRaw);
+    Serial.print("Ambient Light (approx lux): ");
+    Serial.println(lux, 2);
+  }
+
+  Serial.println();
+  delay(2000);
+}
